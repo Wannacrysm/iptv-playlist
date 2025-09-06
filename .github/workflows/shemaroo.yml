@@ -2,8 +2,8 @@ name: Auto Update Shemaroo
 
 on:
   schedule:
-    - cron: "0 */3 * * *"   # every 3 hours
-  workflow_dispatch:        # lets you run manually
+    - cron: "0 */3 * * *"   # run every 3 hours
+  workflow_dispatch:        # allows manual run
 
 jobs:
   update:
@@ -16,15 +16,16 @@ jobs:
         run: |
           LINK=$(curl -s "https://www.shemaroome.com/all-channels/shemaroo-marathibana" \
           | grep -oP 'https.*?playlist.m3u8[^"]*' | head -n 1)
+
           echo "Fresh link: $LINK"
 
-          # Replace expired Shemaroo link in in.m3u
-          sed -i "s|https://cdn.live.shemaroome.com.*|$LINK|" in.m3u
+          # Replace expired Shemaroo link in playlist
+          sed -i "s|https://cdn.live.shemaroome.com.*|$LINK|" in_custom.m3u
 
       - name: Commit changes
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add in.m3u
+          git add in_custom.m3u
           git commit -m "Auto update Shemaroo link"
           git push
