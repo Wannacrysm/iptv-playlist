@@ -1,9 +1,9 @@
 name: Auto Update Shemaroo
 
 on:
+  workflow_dispatch:        # allows manual trigger from GitHub UI
   schedule:
-    - cron: "0 */3 * * *"   # every 3 hours
-  workflow_dispatch:        # allows manual run
+    - cron: "0 */3 * * *"   # run automatically every 3 hours
 
 jobs:
   update:
@@ -12,72 +12,44 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Show repo files (debug)
+      - name: Debug - list repo files
         run: |
-          echo "Listing repo root:"
+          echo "Repo files:"
           ls -la
-          echo "Listing .github/workflows:"
-          ls -la .github/workflows || true
 
-      - name: Get fresh Shemaroo link (safe)
+      - name: Get fresh Shemaroo link
         id: getlink
         run: |
-          set -euo pipefail
-          # Fetch the channel page and extract the first playlist.m3u8 link
-          echo "Fetching Shemaroo page..."
-          PAGE=$(curl -s -A "Mozilla/5.0 (X11; Linux x86_64)" "https://www.shemaroome.com/all-channels/shemaroo-marathibana" || true)
-          echo "Page length: ${#PAGE}"
-          LINK=$(printf "%s" "$PAGE" | grep -oP 'https.*?playlist\.m3u8[^"]*' | head -n 1 || true)
+          LINK=$(curl -s "https://www.shemaroome.com/all-channels/shemaroo-marathibana" \
+          | grep -oP 'https.*?playlist\.m3u8[^"]*' | head -n 1)
+
+          echo "Fresh link: $LINK"
+
           if [ -z "$LINK" ]; then
-            echo "ERROR: Could not find a playlist.m3u8 URL on the page."
-            echo "You can inspect the page manually - sometimes site blocks curl or needs JS."
-            echo "PAGE snippet:"
-            printf "%s" "$PAGE" | sed -n '1,300p'
+            echo "ERROR: Could not fetch Shemaroo link"
             exit 1
           fi
-          echo "Found LINK: $LINK"
-          # Output for next steps
+
           echo "::set-output name=link::$LINK"
 
-      - name: Replace Shemaroo link in playlist file
+      - name: Replace Shemaroo link in playlist
         run: |
-          set -euo pipefail
-          PLAYLIST_FILE="in_custom.m3u"   # <<-- CHANGE this if your playlist filename is different
-          echo "Checking for playlist file: $PLAYLIST_FILE"
+          PLAYLIST_FILE="in_custom.m3u"   # <-- change if your file has a different name
+          NEWLINK="${{ steps.getlink.outputs.link }}"
+
           if [ ! -f "$PLAYLIST_FILE" ]; then
-            echo "ERROR: playlist file not found: $PLAYLIST_FILE"
-            echo "Files in repo:"
-            ls -la
+            echo "Playlist file not found: $PLAYLIST_FILE"
             exit 1
           fi
-          NEWLINK="${{ steps.getlink.outputs.link }}"
-          echo "New link to insert: $NEWLINK"
-          # Replace only lines that start with https://cdn.live.shemaroome.com or playlist.m3u8 pattern
-          # Use awk to replace the first matching URL after the Shemaroo channel EXTINF
-          awk -v new="$NEWLINK" '
-            BEGIN{found=0}
-            { print $0 }
-            tolower($0) ~ /shemaroo.*marathibana/ { found=1; next }
-            found==1 && $0 ~ /^https?:\/\// {
-              print new
-              found=0
-              next
-            }
-          ' "$PLAYLIST_FILE" > "${PLAYLIST_FILE}.tmp" && mv "${PLAYLIST_FILE}.tmp" "$PLAYLIST_FILE"
-          echo "Replacement done. Showing lines around Shemaroo entry:"
-          grep -n -C3 -i "shemaroo" "$PLAYLIST_FILE" || true
 
-      - name: Commit changes if any
+          sed -i "s|https://cdn.live.shemaroome.com.*|$NEWLINK|" "$PLAYLIST_FILE"
+
+          echo "Updated Shemaroo link in $PLAYLIST_FILE"
+
+      - name: Commit changes
         run: |
-          set -euo pipefail
-          git status --porcelain
-          if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "github-actions"
-            git config user.email "actions@github.com"
-            git add in_custom.m3u
-            git commit -m "Auto update Shemaroo link"
-            git push
-            echo "Changes pushed."
-          else
-            echo "No changes to commit."
-          fi
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Auto update Shemaroo link" || echo "No changes to commit"
+          git push
