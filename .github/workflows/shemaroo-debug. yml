@@ -1,0 +1,40 @@
+name: Shemaroo Debug Fetch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Show repo root (debug)
+        run: |
+          echo "Files in repo root:"
+          ls -la
+
+      - name: Curl Shemaroo page (short)
+        id: fetch
+        run: |
+          set -euo pipefail
+          echo "Fetching Shemaroo channel page (short timeout)..."
+          # try with a browser User-Agent (some sites block default curl UA)
+          PAGE=$(curl -s -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" --max-time 20 "https://www.shemaroome.com/all-channels/shemaroo-marathibana" || true)
+          echo "---- PAGE LENGTH: ${#PAGE} ----"
+          echo "---- SHOW PAGE HEAD (first 400 chars) ----"
+          printf "%s" "$PAGE" | sed -n '1,20p'
+          echo "---- SHOW PAGE TAIL (last 400 chars) ----"
+          printf "%s" "$PAGE" | tail -c 400
+          echo "---- GREP FOR playlist.m3u8 matches ----"
+          printf "%s" "$PAGE" | grep -o 'https[^"]*playlist\.m3u8[^"]*' || echo "NO M3U8 FOUND"
+          # save to artifact for inspection (optional)
+          printf "%s" "$PAGE" > page.html
+          ls -lh page.html
+
+      - name: Upload page snippet (for inspection)
+        uses: actions/upload-artifact@v4
+        with:
+          name: shemaroo-page
+          path: page.html
