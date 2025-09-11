@@ -13,16 +13,12 @@ echo "[extract] key=$key page=$page_or_url"
 
 candidate=""
 
-# If page_or_url already is an m3u8, use it directly
 if [[ "$page_or_url" =~ \.m3u8 ]]; then
   candidate="$page_or_url"
 else
-  # Try yt-dlp first (best chance to find hidden streams)
   if command -v yt-dlp >/dev/null 2>&1; then
     candidate="$(yt-dlp -g "$page_or_url" 2>/dev/null | head -n1 || true)"
   fi
-
-  # Fallback: simple HTML/JS scan for m3u8
   if [ -z "$candidate" ]; then
     tmpf="$(mktemp)"
     curl -fsSL "$page_or_url" -o "$tmpf" || true
@@ -37,15 +33,10 @@ if [ -z "$candidate" ]; then
 fi
 
 echo "[extract] candidate=$candidate"
-
-# Optional quick HEAD test (keeps going even if not 200)
 http_code="$(curl -s -I -L -A 'Mozilla/5.0' --max-time 12 -o /dev/null -w '%{http_code}' "$candidate" || echo "000")"
 echo "[extract] http_code=$http_code"
-
-# Save candidate for inspection
 echo "$candidate" > "$datadir/${key}-m3u8.txt"
 
-# Replace the first URL after #CHANNEL:key in the playlist
 tmpfile="$(mktemp)"
 awk -v key="#CHANNEL:${key}" -v new="$candidate" '
 { print $0
