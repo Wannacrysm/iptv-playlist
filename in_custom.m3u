@@ -940,7 +940,7 @@ http://183.89.246.119:8881/play/a09a/index.m3u8
 #EXTINF:-1 tvg-id="Zoom.in@SD" tvg-logo="https://i.imgur.com/kcDJ4g0.png" group-title="Undefined",Zoom (720p)
 https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/zoom-tv/master.m3u8
 #EXTINF:-1 tvg-id="ColorsMarathi.in" tvg-name="Colors Marathi" tvg-logo="https://upload.wikimedia.org/wikipedia/en/4/41/Colors_Marathi_Logo.png" group-title="Entertainment", Colors Marathi
-https://prod-sports-north-gm.jiocinema.com/bpk-tv/Colors_HD_voot_MOB/Fallback/index.m3u8
+http://192.168.1.25:5350/live/755.m3u8
 #EXTINF:-1 tvg-id="SONY_MARATHI" tvg-name="Sony Marathi" tvg-logo="http://jiotv.catchup.cdn.jio.com/dare_images/images/Sony_Marathi_SD.png" group-title="Marathi", Sony Marathi
 https://pubads.g.doubleclick.net/ssai/event/-_w3Jbq3QoW-mFCM2YIzxA/master.m3u8
 #EXTINF:-1 tvg-id="SonyOne.in" tvg-name="Sony One" group-title="Sony", Sony One
@@ -998,4 +998,4 @@ http://192.168.1.27:5350/live/146.m3u8
 http://192.168.1.27:5350/live/151.m3u8
 #EXTINF:-1 tvg-id="476" tvg-name="Sony Max HD" tvg-logo="http://192.168.1.27:5350/jtvimage/Sony_Max_HD.png" tvg-language="Hindi" tvg-type="Movies" group-title="Movies", Sony Max HD
 http://192.168.1.27:5350/live/476.m3u8
-  
+   
