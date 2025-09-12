@@ -738,7 +738,7 @@ https://d2c4zqo2rb5uf1.cloudfront.net/master.m3u8
 #EXTINF:-1 tvg-id="ShekinahTV.in@SD" tvg-logo="https://i.imgur.com/6hTshsG.png" group-title="Undefined",Shekinah TV (1080p)
 https://livetv.timeiptv.in/ShekinahNewsIndia/955ad3298db330b5ee880c2c9e6f23a0.sdp/chunks.m3u8
 #EXTINF:-1 tvg-id="ShemarooMarathiBana.in" tvg-logo="https://i.imgur.com/U63jUUq.png" group-title="Undefined",Shemaroo Marathi Bana (720p)
-https://cdn.live.shemaroome.com/marathibana/smil:marathibanaadp.smil/chunklist_b1628000_sleng.m3u8?hdnts=st%3D1757594269%7Eexp%3D1757605069%7Eacl%3D*%7Edata%3Dtestdata%7Ehmac%3D0d5c93ca029bb78449096d3b1c4e22f66b1ecac32c82ce1b9dd69c6358e2cb62
+http://192.168.1.25:5350/live/1452.m3u8
 #EXTINF:-1 tvg-id="ShemarooTV.in@SD" tvg-logo="https://i.imgur.com/UNNcOef.png" group-title="Entertainment",Shemaroo TV (720p)
 https://cdn-3.pishow.tv/live/230/master.m3u8
 #EXTINF:-1 tvg-id="ShowBox.in" tvg-logo="https://i.imgur.com/Zm4Fhah.png" group-title="Music",ShowBox
