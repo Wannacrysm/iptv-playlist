@@ -998,4 +998,19 @@ http://192.168.1.27:5350/live/146.m3u8
 http://192.168.1.27:5350/live/151.m3u8
 #EXTINF:-1 tvg-id="476" tvg-name="Sony Max HD" tvg-logo="http://192.168.1.27:5350/jtvimage/Sony_Max_HD.png" tvg-language="Hindi" tvg-type="Movies" group-title="Movies", Sony Max HD
 http://192.168.1.27:5350/live/476.m3u8
-   
+#EXTINF:-1 tvg-id="HistoryTV18.in@HD" tvg-logo="https://i.imgur.com/zNJKdRf.png" group-title="Documentary",History TV18 HD (1080p) [Geo-blocked]
+https://amg01448-amg01448c16-samsung-in-3495.playouts.now.amagi.tv/ts-ap-s1-n1/playlist/amg01448-samsungindia-historychannelhindi-samsungin/playlist.m3u8
+#EXTINF:-1 tvg-id="StarGold.in" tvg-logo="https://i.imgur.com/xC460sj.png" group-title="Movies" http-user-agent="stream",Star Gold HD (1080p)
+#EXTVLCOPT:http-user-agent=stream
+http://103.81.104.118/hls/stream19.m3u8
+#EXTINF:-1 tvg-id="SonyMax2.in@SD" tvg-logo="https://i.imgur.com/gqUYk6C.png" group-title="Undefined",Sony Max 2 (720p)
+https://tv.bdixtv24.com/toffee/live.php?e=.m3u8&id=420510be5c17   
+#EXTINF:-1 tvg-id="SonySAB.in@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Sony_Sab_new.png/512px-Sony_Sab_new.png" group-title="Entertainment",Sony SAB (720p)
+https://tv.bdixtv24.com/toffee/live.php?e=.m3u8&id=b7167fe646a4
+#EXTINF:-1 tvg-id="B4UMovies.in@India" tvg-logo="https://i.imgur.com/M9kMFJl.png" group-title="Movies",B4U Movies India (1080p)
+https://cdnb4u.wiseplayout.com/B4U_Movies/master.m3u8
+#EXTINF:-1 tvg-id="SonySportsTen5.in" tvg-logo="https://i.imgur.com/40BbQUd.png" group-title="Sports" http-user-agent="stream",Sony Six HD (1080p)
+#EXTVLCOPT:http-user-agent=stream
+http://103.81.104.118/hls/stream10.m3u8
+#EXTINF:-1 tvg-id="StarSports1.in@HD" tvg-logo="https://i.imgur.com/E5jjKHI.png" group-title="Sports",Star Sports 1 HD [Geo-blocked]
+http://41.205.93.154/STARSPORTS1/index.m3u8
